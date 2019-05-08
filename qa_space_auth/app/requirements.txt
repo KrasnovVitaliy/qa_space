@@ -1,0 +1,9 @@
+pyjwt
+py-bcrypt
+sqlalchemy
+celery
+aiohttp
+aiohttp_jinja2
+aiohttp_cors
+aiohttp_session
+cryptography

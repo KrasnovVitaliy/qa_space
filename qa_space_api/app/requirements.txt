@@ -1,0 +1,10 @@
+# Web
+sqlalchemy
+celery
+aiohttp
+aiohttp_jinja2
+aiohttp_session
+PyJWT
+bcrypt
+requests
+cryptography

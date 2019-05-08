@@ -1,0 +1,249 @@
+{% extends 'main.html' %}
+{% block body_content %}
+<div class="card">
+    <div class="header">
+        <h3 class="title">Edit case: {{case.name}}</h3>
+    </div>
+    <div class="content">
+        <form action="/edit_case?id={{case.id}}" method="post">
+            <div class="row">
+                <div class="col-md-12">
+                    <h4 class="title">Basic</h4>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label>Name</label>
+                        <input required type="text" class="form-control" placeholder="Case name" name="name"
+                               value="{{case.name}}">
+                    </div>
+                </div>
+                <div class="col-md-3"> <!-- hidden-->
+                    <div class="form-group">
+                        <label>Suite ID</label>
+                        <input type="text" class="form-control" placeholder="Suite ID" name="suite" {%if case.suite
+                               %}value="{{case.suite}}" {% endif %}>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label>Tags</label><br>
+                        <input id="tags" type="text" data-role="tagsinput" class="form-control" name="tags" value="{{case.tags}}">
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label>Priority</label>
+                        <select class="form-control" name="priority">
+                            <option value="medium" {%if case.priority=='medium' %}selected="selected" {% endif %}>
+                                Medium
+                            </option>
+                            <option value="hight" {%if case.priority=='hight' %}selected="selected" {% endif %}>Hight
+                            </option>
+                            <option value="low" {%if case.priority=='low' %}selected="selected" {% endif %}>Low</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label>Type</label>
+                        <select class="form-control" name="case_type">
+                            <option value="other" {%if case.case_type=='other' %}selected="selected" {% endif %}>Other
+                            </option>
+                            <option value="functional" {%if case.case_type=='functional' %}selected="selected" {% endif
+                                    %}>Functional
+                            </option>
+                            <option value="smoke" {%if case.case_type=='smoke' %}selected="selected" {% endif %}>Smoke
+                            </option>
+                            <option value="regression" {%if case.case_type=='regression' %}selected="selected" {% endif
+                                    %}>Regression
+                            </option>
+                            <option value="acceptance" {%if case.case_type=='acceptance' %}selected="selected" {% endif
+                                    %}>Acceptance
+                            </option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label>Behaviour</label>
+                        <select class="form-control" name="behaviour">
+                            <option value="not_set" {%if case.behaviour=='not_set' %}selected="selected" {% endif %}>Not
+                                set
+                            </option>
+                            <option value="positive" {%if case.behaviour=='positive' %}selected="selected" {% endif %}>
+                                Positive
+                            </option>
+                            <option value="negative" {%if case.behaviour=='negative' %}selected="selected" {% endif %}>
+                                Negative
+                            </option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label>Description</label>
+                        <textarea rows="5" class="form-control" placeholder="Case description max 100 chars"
+                                  maxlength="100" name="description">{{case.description}}</textarea>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <h4 class="title">Conditions</h4>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label>Pre-conditions</label>
+                        <textarea rows="5" class="form-control" placeholder="Pre-conditions max 100 chars"
+                                  maxlength="100" name="preconditions">{{case.preconditions}}</textarea>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label>Post-conditions</label>
+                        <textarea rows="5" class="form-control" placeholder="Post-conditions max 100 chars"
+                                  maxlength="100" name="postconditions">{{case.postconditions}}</textarea>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card ">
+                <div class="header">
+                    <h4 class="title">Steps</h4>
+                </div>
+                <div class="content">
+                    <div class="table-full-width">
+                        <ul id="stepsList" class="list-group">
+                            <!-- TODO: To fix list display -->
+                            {% for step in case.steps %}
+                            <li class="list-group-item case-step-item"><span class="label label-default label-pill">{{step.position}}</span>
+                                <input type="text" placeholder="Step" name="step_{{step.position}}"
+                                       value="{{step.description}}">
+                                <button type="button" rel="tooltip" title="Remove"
+                                        class="btn btn-danger btn-simple btn-xs" onclick="removeCaseStep()">
+                                    <i class="fa fa-times"></i>
+                                </button>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                        <button type="button" rel="tooltip" title="Add" class="btn btn-info btn-simple"
+                                onclick="addStepButtonHandler()"><i class="fas fa-plus"></i></button>
+                    </div>
+                </div>
+            </div>
+            <div class="form-buttons-set">
+                <button type="submit" class="btn btn-info btn-fill pull-right">Save</button>
+                <button onclick="window.history.back()" type="button"
+                        class="btn btn-danger pull-right btn-form-cancel">Cancel
+                </button>
+                <div class="clearfix"></div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        $(window).keydown(function (event) {
+            if (event.keyCode == 13) {
+                event.preventDefault();
+                return false;
+            }
+        });
+    });
+
+    Sortable.create(stepsList, {
+        onEnd: function () {
+            recountElements();
+        }
+    });
+
+    function createSpanElement(itemNum) {
+        let spanElement = document.createElement("span");
+        spanElement.setAttribute("class", "label label-default label-pill");
+        spanElement.textContent = itemNum;
+        return spanElement;
+    }
+
+    function createInputElement(itemNum) {
+        let inputFieldElement = document.createElement("input");
+        inputFieldElement.setAttribute("type", "text");
+        // inputFieldElement.setAttribute("class", "form-control");
+        inputFieldElement.setAttribute("placeholder", "Step");
+        inputFieldElement.setAttribute("name", "step_" + itemNum);
+
+        return inputFieldElement;
+    }
+
+    function createRemoveButtonElement(itemNum) {
+        let removeButtonElement = document.createElement("button");
+        removeButtonElement.setAttribute("type", "button");
+        removeButtonElement.setAttribute("rel", "tooltip");
+        removeButtonElement.setAttribute("title", "Remove");
+        removeButtonElement.setAttribute("class", "btn btn-danger btn-simple btn-xs");
+        removeButtonElement.setAttribute("onclick", "removeCaseStep()");
+
+        let removeIcon = document.createElement("i");
+        removeIcon.setAttribute("class", "fa fa-times");
+        removeButtonElement.appendChild(removeIcon);
+
+        return removeButtonElement
+    }
+
+    function createStepItemElement(itemNum) {
+        let itemElement = document.createElement("li");
+        itemElement.setAttribute("class", "list-group-item case-step-item");
+        itemElement.appendChild(createSpanElement(itemNum));
+        itemElement.appendChild(createInputElement(itemNum));
+
+        itemElement.appendChild(createRemoveButtonElement(itemNum));
+        return itemElement;
+    }
+
+    function addStepButtonHandler() {
+        let itemNum = document.getElementsByClassName("case-step-item").length;
+
+        stepsListElement = document.getElementById('stepsList');
+        stepElement = createStepItemElement(itemNum);
+        stepsListElement.appendChild(stepElement);
+    }
+
+    function recountElements() {
+        let stepItems = document.getElementsByClassName("case-step-item");
+        for (i = 0; i < stepItems.length; i++) {
+            let childSpan = stepItems[i].getElementsByTagName("span")[0];
+            childSpan.innerHTML = i;
+            let childInput = stepItems[i].getElementsByTagName("input")[0];
+            childInput.setAttribute("name", "step_" + i);
+        }
+    }
+
+    function removeCaseStep(stepNum) {
+        let stepItem = $(event.target).parent().parent();
+        stepItem.remove();
+        recountElements();
+    }
+</script>
+{% endblock %}

@@ -1,0 +1,214 @@
+{% extends 'main.html' %}
+{% block body_content %}
+<div class="card">
+    <div class="header">
+        <h3 class="title">Create new case</h3>
+    </div>
+    <div class="content">
+        <form action="/new_case" method="post">
+            <div class="row">
+                <div class="col-md-12">
+                    <h4 class="title">Basic</h4>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label>Name</label>
+                        <input required type="text" class="form-control" placeholder="Case name" name="name">
+                    </div>
+                </div>
+
+                <div hidden class="col-md-3">
+                    <div class="form-group">
+                        <label>Suite ID</label>
+                        <input type="text" class="form-control" placeholder="Suite ID" name="suite" {%if suite_id
+                               %}value="{{suite_id}}{% endif %}">
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label>Tags</label><br>
+                        <input id="tags" type="text" data-role="tagsinput" class="form-control" name="tags">
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label>Priority</label>
+                        <select class="form-control" name="priority">
+                            <option value="medium">Medium</option>
+                            <option value="hight">Hight</option>
+                            <option value="low">Low</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label>Type</label>
+                        <select class="form-control" name="case_type">
+                            <option value="other">Other</option>
+                            <option value="functional">Functional</option>
+                            <option value="smoke">Smoke</option>
+                            <option value="regression">Regression</option>
+                            <option value="acceptance">Acceptance</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label>Behaviour</label>
+                        <select class="form-control" name="behaviour">
+                            <option value="not_set">Not set</option>
+                            <option value="positive">Positive</option>
+                            <option value="negative">Negative</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label>Description</label>
+                        <textarea rows="5" class="form-control" placeholder="Case description max 100 chars"
+                                  maxlength="100" name="description"></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <h4 class="title">Conditions</h4>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label>Pre-conditions</label>
+                        <textarea rows="5" class="form-control" placeholder="Pre-conditions max 100 chars"
+                                  maxlength="100" name="preconditions"></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label>Post-conditions</label>
+                        <textarea rows="5" class="form-control" placeholder="Post-conditions max 100 chars"
+                                  maxlength="100" name="postconditions"></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="header">
+                    <h4 class="title">Steps</h4>
+                </div>
+                <div class="content">
+                    <div class="table-full-width">
+                        <!-- TODO: To fix list display -->
+                        <ul id="stepsList" class="list-group"></ul>
+                        <button type="button" rel="tooltip" title="Add" class="btn btn-info btn-simple"
+                                onclick="addStepButtonHandler()"><i class="fas fa-plus"></i></button>
+                    </div>
+                </div>
+            </div>
+            <div class="form-buttons-set">
+                <button type="submit" class="btn btn-info btn-fill pull-right">Create</button>
+                <button onclick="window.history.back()" type="button"
+                        class="btn btn-danger pull-right btn-form-cancel">Cancel
+                </button>
+                <div class="clearfix"></div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
+<script type="text/javascript">
+    $('#tags').tagsinput({
+        confirmKeys: [13, 44, 32]
+    });
+
+    Sortable.create(stepsList, {
+        onEnd: function () {
+            recountElements();
+        }
+    });
+
+    function createSpanElement(itemNum) {
+        let spanElement = document.createElement("span");
+        spanElement.setAttribute("class", "label label-default label-pill");
+        spanElement.textContent = itemNum;
+        return spanElement;
+    }
+
+    function createInputElement(itemNum) {
+        let inputFieldElement = document.createElement("input");
+        inputFieldElement.setAttribute("type", "text");
+        // inputFieldElement.setAttribute("class", "form-control");
+        inputFieldElement.setAttribute("placeholder", "Step");
+        inputFieldElement.setAttribute("name", "step_" + itemNum);
+
+        return inputFieldElement;
+    }
+
+    function createRemoveButtonElement(itemNum) {
+        let removeButtonElement = document.createElement("button");
+        removeButtonElement.setAttribute("type", "button");
+        removeButtonElement.setAttribute("rel", "tooltip");
+        removeButtonElement.setAttribute("title", "Remove");
+        removeButtonElement.setAttribute("class", "btn btn-danger btn-simple btn-xs");
+        removeButtonElement.setAttribute("onclick", "removeCaseStep()");
+
+        let removeIcon = document.createElement("i");
+        removeIcon.setAttribute("class", "fa fa-times");
+        removeButtonElement.appendChild(removeIcon);
+
+        return removeButtonElement
+    }
+
+    function createStepItemElement(itemNum) {
+        let itemElement = document.createElement("li");
+        itemElement.setAttribute("class", "list-group-item case-step-item");
+        itemElement.appendChild(createSpanElement(itemNum));
+        itemElement.appendChild(createInputElement(itemNum));
+
+        itemElement.appendChild(createRemoveButtonElement(itemNum));
+        return itemElement;
+    }
+
+    function addStepButtonHandler() {
+        let itemNum = document.getElementsByClassName("case-step-item").length;
+
+        stepsListElement = document.getElementById('stepsList');
+        stepElement = createStepItemElement(itemNum);
+        stepsListElement.appendChild(stepElement);
+    }
+
+    function recountElements() {
+        let stepItems = document.getElementsByClassName("case-step-item");
+        for (i = 0; i < stepItems.length; i++) {
+            let childSpan = stepItems[i].getElementsByTagName("span")[0];
+            childSpan.innerHTML = i;
+            let childInput = stepItems[i].getElementsByTagName("input")[0];
+            childInput.setAttribute("name", "step_" + i);
+        }
+    }
+
+    function removeCaseStep(stepNum) {
+        let stepItem = $(event.target).parent().parent();
+        stepItem.remove();
+        recountElements();
+    }
+</script>
+{% endblock %}

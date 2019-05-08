@@ -1,0 +1,45 @@
+{% extends 'main.html' %}
+{% block body_content %}
+<div class="card">
+    <div class="header">
+        <h3 class="title">Edit suite</h3>
+    </div>
+    <div class="content">
+        <form action="/edit_suite?id={{suite.id}}" method="post">
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label>Name</label>
+                        <input required type="text" class="form-control" placeholder="Suite name" name="name"
+                               value="{{suite.name}}">
+                    </div>
+                </div>
+                <div hidden class="col-md-3">
+                    <div class="form-group">
+                        <label>Project ID</label>
+                        <input type="text" class="form-control" placeholder="Project ID" name="project" {%if project_id
+                               %}value="{{project_id}}{% endif %}">
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label>Description</label>
+                        <textarea rows="5" class="form-control" placeholder="Suite description max 100 chars"
+                                  maxlength="100" name="description">{{suite.description}}</textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="form-buttons-set">
+                <button type="submit" class="btn btn-info btn-fill pull-right">Update</button>
+                <button onclick="window.history.back()" type="button"
+                        class="btn btn-danger pull-right btn-form-cancel">Cancel
+                </button>
+                <div class="clearfix"></div>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

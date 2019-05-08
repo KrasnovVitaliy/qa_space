@@ -1,0 +1,128 @@
+{% extends 'main.html' %}
+{% block navbar_content%}
+<nav class="navbar navbar-default navbar-fixed"></nav>
+{% endblock %}
+{% block body_content %}
+<div class="card">
+    <div class="header">
+        <h3 class="title">Edit case: {{case.name}}</h3>
+    </div>
+    <div class="content">
+        <form>
+            <div class="row">
+                <div class="col-md-12">
+                    <h4 class="title">Basic</h4>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label>Name</label>
+                        <label class="form-control" style="color:black;">{{case.name}}</label>
+                    </div>
+                </div>
+                <div hidden class="col-md-3">
+                    <div class="form-group">
+                        <label>Suite ID</label>
+                        <input type="text" class="form-control" placeholder="Suite ID" name="suite" {%if suite_id
+                               %}value="{{suite_id}}" {% endif %}>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label>Tags</label><br>
+                        <input id="tags" type="text" data-role="tagsinput" class="form-control" name="tags" value="{{case.tags}}"></input>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label>Priority</label>
+                        <label class="form-control" style="color:black;">{{case.priority}}</label>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label>Type</label>
+                        <label class="form-control" style="color:black;">{{case.case_type}}</label>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label>Behaviour</label>
+                        <label class="form-control" style="color:black;">{{case.behaviour}}</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label>Description</label>
+                        <label class="form-control" style="color:black;">{{case.description}}</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <h4 class="title">Conditions</h4>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label>Pre-conditions</label>
+                        <label class="form-control" style="color:black;">{{case.preconditions}}</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label>Post-conditions</label>
+                        <label class="form-control" style="color:black;">{{case.postconditions}}</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card ">
+                <div class="header">
+                    <h4 class="title">Steps</h4>
+                </div>
+                <div class="content">
+                    <div class="table-full-width">
+                        <table class="table" id="steps-table">
+                            <tbody>
+
+                            {% for step in case.steps %}
+                            <tr class="case-step-row" id="caseStepRow_{{step.position}}">
+                                <td>{{step.position}}</td>
+                                <td>
+                                    <label class="form-control" style="color:black;">{{step.description}}</label>
+                                </td>
+                                <td></td>
+                            </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="form-buttons-set">
+                <button type="button" onclick="window.history.back()" class="btn btn-info btn-fill pull-right">Close</button>
+                <div class="clearfix"></div>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

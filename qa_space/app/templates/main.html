@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="en">
+<head>
+    {% include 'header.html' %}
+    {% block css_content %}{% endblock %}
+</head>
+
+<body>
+{% include 'js_scripts.html' %}
+<div class="wrapper">
+    <div class="sidebar" data-color="blue" data-image="static/images/sidebar.jpg">
+
+        <!--   you can change the color of the sidebar using: data-color="blue | azure | green | orange | red | purple" -->
+
+
+        <div class="sidebar-wrapper">
+            <div class="logo">
+                <a href="/" class="simple-text">
+                    QA-Space
+                </a>
+            </div>
+
+            <ul class="nav">
+                <li {% if active_tab==
+                'projects' %} class="active" {% endif %}>
+                <a href="/projects">
+                    <i class="pe-7s-note2"></i>
+                    <p>Projects</p>
+                </a>
+                </li>
+                <li {% if active_tab==
+                'runs' %} class="active" {% endif %}>
+                <a href="/runs">
+                    <i class="pe-7s-refresh-2"></i>
+                    <p>Test runs</p>
+                </a>
+                </li>
+                <li {% if active_tab==
+                'results' %} class="active" {% endif %}>
+                <a href="/results">
+                    <i class="pe-7s-graph2"></i>
+                    <p>Test results</p>
+                </a>
+                </li>
+                <li {% if active_tab==
+                'issues' %} class="active" {% endif %}>
+                <a href="/issues">
+                    <i class="pe-7s-attention"></i>
+                    <p>Issues</p>
+                </a>
+                </li>
+
+                <li {% if active_tab==
+                'integrations' %} class="active" {% endif %}>
+                <a href="/integrations">
+                    <i class="pe-7s-way"></i>
+                    <p>Integrations</p>
+                </a>
+                </li>
+                <li {% if active_tab==
+                'profile' %} class="active" {% endif %}>
+                <a href="/edit_profile">
+                    <i class="pe-7s-user"></i>
+                    <p>Profile</p>
+                </a>
+                </li>
+
+                <li class="logout-button">
+                    <a href="{{ auth_service_address }}/logout">
+                        <i class="pe-7s-rocket"></i>
+                        <p>Log out</p>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    {% block modals_content %}{% endblock %}
+
+    <div class="main-panel">
+        {%block navbar_content%}
+        <nav class="navbar navbar-default navbar-fixed"></nav>
+        {% endblock %}
+        <div class="content">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-12">
+                        {% block body_content %}
+                        <div>BodyContent</div>
+                        {% endblock %}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <footer class="footer">
+            {% block footer_content %}
+            <div class="container-fluid">
+                <nav class="pull-left">
+                    <ul>
+                        <li>
+                            <a href="#">
+                                Version: 1.0.0
+                            </a>
+                        </li>
+                        <!--<li>-->
+                        <!--<a href="#">-->
+                        <!--Company-->
+                        <!--</a>-->
+                        <!--</li>-->
+                        <!--<li>-->
+                        <!--<a href="#">-->
+                        <!--Portfolio-->
+                        <!--</a>-->
+                        <!--</li>-->
+                        <!--<li>-->
+                        <!--<a href="#">-->
+                        <!--Blog-->
+                        <!--</a>-->
+                        <!--</li>-->
+                    </ul>
+                </nav>
+                <p class="copyright pull-right">
+                    &copy;
+                    <script>document.write(new Date().getFullYear())</script>
+                    <a href="/">QA-Space</a>, made with love for a better QA by krasnov.v.i@gmail.com
+                </p>
+            </div>
+
+            {% endblock %}
+        </footer>
+    </div>
+</div>
+</body>
+</html>

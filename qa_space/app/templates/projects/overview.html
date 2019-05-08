@@ -1,0 +1,136 @@
+{% extends 'main.html' %}
+{% block navbar_content%}
+<nav class="navbar navbar-default navbar-fixed">
+    <div class="container-fluid">
+        <div>
+            <!--<ul class="nav navbar-nav navbar-left">-->
+                <!--<li>-->
+                    <!--<a href="#">All</a>-->
+                <!--</li>-->
+                <!--<li>-->
+                    <!--<a href="#">With issues</a>-->
+                <!--</li>-->
+                <!--<li class="separator hidden-lg hidden-md"></li>-->
+            <!--</ul>-->
+            <ul class="nav navbar-nav navbar-right">
+                <li>
+                    <a href="/new_project" class="text-info"><b>Create</b></a>
+                </li>
+                <li class="separator hidden-lg hidden-md"></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+{% endblock %}
+{% block body_content %}
+
+<div class="card">
+    <div class="header">
+        <h3 class="title">Projects overview</h3>
+        <!--<p class="category">Here is a subtitle for this table</p>-->
+    </div>
+    <div class="content table-responsive table-full-width">
+        <table class="table table-hover table-striped">
+            <thead>
+            <th>Project name</th>
+            <th>Unresolved issues</th>
+            <th>Test runs</th>
+            <th>Project creator</th>
+            <th>Actions</th>
+            </thead>
+            <tbody>
+            {% for project in projects%}
+            <tr>
+                <td><a href="/suites?project={{ project.id }}" class="project-name">{{ project.name }}</a>
+                    <p class="list-sub-text">Updated: {{project.update_date}} | {{project.suites}} suites</p></td>
+                <td>No active issues</td>
+                <td>No test runs</td>
+                <td>
+                    <!--<img src="https://ui-avatars.com/api/?rounded=true&bold=true&background=0D8ABC&color=fff&name={{ project.creator }}"/>-->
+                    <p>{{ project.creator.first_name }} {{ project.creator.last_name }}</p>
+                </td>
+                <td>
+                    <a href="/edit_project?id={{project.id}}"><i class="fas fa-edit"></i></a>
+                    <a class="text-danger" href="#"><i
+                            class="fa fa-times" data-project_id={{project.id}} data-project_name="{{project.name}}"
+                            data-toggle="modal"
+                            data-target="#deleteConfirmationModal"></i></a>
+                </td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+<script type="text/javascript">
+    pass_arguments_to_modal();
+    set_confirmation_modal_handlers();
+
+    function delete_project(project_url) {
+        $.ajax({
+            type: "DELETE",
+            url: project_url,
+            success: function (msg) {
+                console.log(msg["status"]);
+                if (msg["status"] === "ok") {
+                    window.location.reload()
+                }
+            }
+        });
+    }
+
+    function pass_arguments_to_modal() {
+        let ATTRIBUTES = ['project_name'];
+        $('[data-toggle="modal"]').on('click', function (e) {
+            // convert target (e.g. the button) to jquery object
+            var $target = $(e.target);
+            // modal targeted by the button
+            var modalSelector = $target.data('target');
+
+            // iterate over each possible data-* attribute
+            ATTRIBUTES.forEach(function (attributeName) {
+                // retrieve the dom element corresponding to current attribute
+                var $modalAttribute = $(modalSelector + ' #modal-' + attributeName);
+                var dataValue = $target.data(attributeName);
+                $modalAttribute.text(dataValue || '');
+            });
+            window.removing_id = $target.data('project_id');
+            console.log("Selected id: " + window.removing_id);
+        });
+    }
+
+    function set_confirmation_modal_handlers() {
+        $('#deleteConfirmationModal .modal-footer button').on('click', function (event) {
+            var $button = $(event.target); // The clicked button
+
+            $(this).closest('.modal').one('hidden.bs.modal', function () {
+                if ($button.attr("id") == 'confirm-delete-button') {
+                    delete_project('/projects?id=' + window.removing_id);
+                }
+            });
+        });
+    }
+</script>
+{% endblock %}
+
+{% block modals_content %}
+<div class="modal fade" id="deleteConfirmationModal" tabindex="-1" role="dialog"
+     aria-labelledby="deleteConfirmationModal"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <h3>Delete project <span id="modal-project_name"></span>?</h3>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal" id="cancel-delete-button">Cancel
+                </button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal" id="confirm-delete-button">Delete
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
