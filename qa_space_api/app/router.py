@@ -12,18 +12,18 @@ from views.tags import *
 from views.docs import *
 from views.config import *
 
+config = Config()
 # Define all routes and views here
-
 # path_to_static_folder = './static'
 routes = [
     web.view('/projects', ProjectsView),
     web.view('/suites', SuitesView),
     web.view('/cases', CasesView),
     web.view('/tags', TagsView),
-
-    # System
-    web.view('/doc', DocsView),
-    web.view('/config', ConfigsView),
 ]
+
+if config.IS_DEBUG:
+    routes.append(web.view('/doc', DocsView)),
+    routes.append(web.view('/config', ConfigsView)),
 
 # c8dbb370a340538342e1771b7b288931

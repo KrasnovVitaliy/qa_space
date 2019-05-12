@@ -1,0 +1,32 @@
+version: '3'
+services:
+  qa_space_auth:
+    build:
+      context: ./qa_space_auth
+      dockerfile: Dockerfile-test
+    ports:
+      - 7000:7000
+    volumes:
+      - db-data:/db
+
+  qa_space:
+    build:
+      context: ./qa_space
+      dockerfile: Dockerfile-test
+    ports:
+      - 8080:8080
+    volumes:
+      - db-data:/db
+
+  qa_space_api:
+    build:
+      context: ./qa_space_api
+      dockerfile: Dockerfile-test
+    ports:
+      - 7080:7080
+    volumes:
+      - db-data:/db
+
+volumes:
+  db-data:
+    driver: local

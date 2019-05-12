@@ -10,6 +10,7 @@ from views.config import *
 
 # Define all routes and views here
 
+config = Config()
 path_to_static_folder = './static'
 routes = [
     # Login
@@ -27,6 +28,7 @@ routes = [
     web.view('/api_token', ApiTokenView),
 
     # System
-    web.view('/doc', DocsView),
-    web.view('/config', ConfigsView),
 ]
+if config.IS_DEBUG:
+    routes.append(web.view('/doc', DocsView)),
+    routes.append(web.view('/config', ConfigsView)),

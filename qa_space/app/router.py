@@ -27,6 +27,7 @@ from views.integrations.overview import *
 
 from views.config import *
 
+config = Config()
 # Define all routes and views here
 
 path_to_static_folder = './static'
@@ -66,8 +67,9 @@ routes = [
 
     # Promo
     web.view('/', IndexView),
-
-    # System
-    web.view('/config', ConfigsView),
-    web.static('/static', path_to_static_folder, show_index=True),
 ]
+
+if config.IS_DEBUG:
+    # routes.append(web.view('/doc', DocsView)),
+    routes.append(web.view('/config', ConfigsView)),
+    web.static('/static', path_to_static_folder, show_index=True),

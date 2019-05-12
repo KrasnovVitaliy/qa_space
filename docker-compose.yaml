@@ -2,27 +2,32 @@ version: '3'
 services:
   db:
     image: postgres
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
 
   qa_space_auth:
-#    image: "qa_space_auth:latest"
     build: ./qa_space_auth
     ports:
-     - "7000:7000"
-    volumes:
-     - .:/db
+      - 7000:7000
+    depends_on:
+      - db
 
   qa_space:
-#    image: "qa_space:latest"
     build: ./qa_space
     ports:
-     - "8080:8080"
-    volumes:
-     - .:/db
+    - 8080:8080
+    depends_on:
+      - db
 
   qa_space_api:
-#    image: "qa_space_api:latest"
     build: ./qa_space_api
     ports:
-     - "7080:7080"
-    volumes:
-     - .:/db
+    - 7080:7080
+    depends_on:
+      - db
+
+volumes:
+  db-data:
+    driver: local
