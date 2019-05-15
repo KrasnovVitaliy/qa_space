@@ -1,5 +1,13 @@
 version: '3'
 services:
+  db:
+    image: postgres
+    restart: always
+    ports:
+      - 5432:5432
+    volumes:
+      - ./pgdb:/var/lib/postgresql/data
+
   qa_space_auth:
     build:
       context: ./qa_space_auth
@@ -8,6 +16,8 @@ services:
       - 7000:7000
     volumes:
       - ./db:/db
+    depends_on:
+      - db
 
   qa_space:
     build:
@@ -17,6 +27,8 @@ services:
       - 8080:8080
     volumes:
       - ./db:/db
+    depends_on:
+      - db
 
   qa_space_api:
     build:
@@ -26,7 +38,5 @@ services:
       - 7080:7080
     volumes:
       - ./db:/db
-
-volumes:
-  db-data:
-    driver: local
+    depends_on:
+      - db

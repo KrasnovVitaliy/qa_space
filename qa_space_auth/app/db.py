@@ -50,7 +50,7 @@ class Users(Base):
     first_name = Column(String(50))
     last_name = Column(String(50))
     email = Column(String(50))
-    pass_hash = Column(String(50))
+    pass_hash = Column(String(100))
     api_key = Column(String(50))
     deleted = Column(DateTime)
 

@@ -7,3 +7,4 @@ aiohttp_jinja2
 aiohttp_cors
 aiohttp_session
 cryptography
+psycopg2

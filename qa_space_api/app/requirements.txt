@@ -8,3 +8,4 @@ PyJWT
 bcrypt
 requests
 cryptography
+psycopg2

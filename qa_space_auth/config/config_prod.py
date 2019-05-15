@@ -11,7 +11,7 @@ class Config(ConfigBase):
     PORT = 7000
     HOST = "0.0.0.0"
 
-    DB_URI = 'sqlite:////db/auth.db'
+    DB_URI = 'postgresql://postgres:postgres@db:5432/qa_space_auth'
 
     # Logging
     LOG_FORMAT = '%(asctime)-15s | %(levelname)s | %(filename)s | %(lineno)d: %(message)s'

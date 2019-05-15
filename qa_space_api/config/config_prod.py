@@ -11,7 +11,8 @@ class Config(ConfigBase):
     PORT = 7080
     HOST = "0.0.0.0"
 
-    DB_URI = 'sqlite:////db/qa_space.db'
+    DB_URI = 'postgresql://postgres:postgres@db:5432/qa_space'
+
     # Logging
     LOG_FORMAT = '%(asctime)-15s | %(levelname)s | %(filename)s | %(lineno)d: %(message)s'
     LOG_LEVEL = logging.DEBUG
