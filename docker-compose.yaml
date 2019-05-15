@@ -1,32 +1,31 @@
 version: '3'
 services:
-  db:
-    image: postgres
-    volumes:
-      - db-data:/var/lib/postgresql/data
-    ports:
-      - 5432:5432
-
   qa_space_auth:
-    build: ./qa_space_auth
+    build:
+      context: ./qa_space_auth
+      dockerfile: Dockerfile
     ports:
       - 7000:7000
-    depends_on:
-      - db
+    volumes:
+      - ./db:/db
 
   qa_space:
-    build: ./qa_space
+    build:
+      context: ./qa_space
+      dockerfile: Dockerfile
     ports:
-    - 8080:8080
-    depends_on:
-      - db
+      - 8080:8080
+    volumes:
+      - ./db:/db
 
   qa_space_api:
-    build: ./qa_space_api
+    build:
+      context: ./qa_space_api
+      dockerfile: Dockerfile
     ports:
-    - 7080:7080
-    depends_on:
-      - db
+      - 7080:7080
+    volumes:
+      - ./db:/db
 
 volumes:
   db-data:

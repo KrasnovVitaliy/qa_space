@@ -20,10 +20,10 @@ routes = [
     web.view('/suites', SuitesView),
     web.view('/cases', CasesView),
     web.view('/tags', TagsView),
+    web.view('/doc', DocsView),
 ]
 
 if config.IS_DEBUG:
-    routes.append(web.view('/doc', DocsView)),
     routes.append(web.view('/config', ConfigsView)),
 
 # c8dbb370a340538342e1771b7b288931
