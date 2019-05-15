@@ -1,1 +1,7 @@
+sudo: false
+
 language: python
+
+branches:
+  only:
+    - master
