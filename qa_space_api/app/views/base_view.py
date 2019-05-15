@@ -27,7 +27,7 @@ class BaseView(web.View):
         logger.debug("Getting projects with params: {}".format(get_params))
         uuid = get_params['api_key']
 
-        rsp = requests.get("{}/api_token?uuid={}".format(config.AUTH_SERVICE_ADDRESS, uuid))
+        rsp = requests.get("{}/api_token?uuid={}".format(config.AUTH_SERVICE_INTERNAL, uuid))
         if rsp.status_code != 200:
             logger.error("Auth response is {} expected 200. Error: {}".format(rsp.status_code, rsp.text))
             return web.json_response({"error": "Not found"}, status=404)

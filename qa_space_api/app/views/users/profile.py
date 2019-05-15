@@ -41,7 +41,7 @@ class ProfileView(BaseView):
         #         if data[key]:
         #             user_data[key] = data[key]
         #
-        # ret = requests.put("{}/users?id={}".format(config.AUTH_SERVICE_ADDRESS, self.user_data['id']),
+        # ret = requests.put("{}/users?id={}".format(config.AUTH_SERVICE_INTERNAL, self.user_data['id']),
         #                    data=json.dumps(user_data))
         #
         # if ret.status_code != 200:

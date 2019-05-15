@@ -41,4 +41,4 @@ class LoginView(web.View, CorsViewMixin):
         logger.debug("Encoded JWT: {}".format(jwt))
         session = await get_session(self.request)
         session['auth'] = jwt.decode("utf-8")
-        return web.HTTPFound(config.QA_SPACE_ADDRESS_INDEX)
+        return web.HTTPFound(config.QA_SPACE_EXTERNAL)

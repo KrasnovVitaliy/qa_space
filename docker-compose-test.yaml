@@ -7,7 +7,7 @@ services:
     ports:
       - 7000:7000
     volumes:
-      - db-data:/db
+      - ./db:/db
 
   qa_space:
     build:
@@ -16,7 +16,7 @@ services:
     ports:
       - 8080:8080
     volumes:
-      - db-data:/db
+      - ./db:/db
 
   qa_space_api:
     build:
@@ -25,7 +25,7 @@ services:
     ports:
       - 7080:7080
     volumes:
-      - db-data:/db
+      - ./db:/db
 
 volumes:
   db-data:

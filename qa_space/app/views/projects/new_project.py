@@ -23,7 +23,7 @@ class NewProjectView(web.View):
         logger.debug("Decoded auth section data: {}".format(session_data))
 
         return {
-            'auth_service_address': config.AUTH_SERVICE_ADDRESS,
+            'auth_service_address': config.AUTH_SERVICE_EXTERNAL,
             'active_tab': 'projects',
         }
 

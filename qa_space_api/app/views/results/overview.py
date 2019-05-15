@@ -17,6 +17,5 @@ class ResultsOverviewView(web.View):
     @aiohttp_jinja2.template('not_implemented.html')
     async def get(self):
         return {
-            'auth_service_address': config.AUTH_SERVICE_ADDRESS,
             'active_tab': 'results',
         }

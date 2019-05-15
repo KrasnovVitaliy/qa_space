@@ -17,7 +17,8 @@ class Config(ConfigBase):
     LOG_LEVEL = logging.DEBUG
     LOG_FILE = None
 
-    AUTH_SERVICE_ADDRESS = "http://127.0.0.1:7000"
+    AUTH_SERVICE_INTERNAL = "http://qa_space_auth:7000"
+    AUTH_SERVICE_EXTERNAL = "http://127.0.0.1:7000"
 
     NON_LOGIN_URLS = [
         'doc',

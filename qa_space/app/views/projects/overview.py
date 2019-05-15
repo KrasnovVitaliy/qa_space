@@ -23,7 +23,7 @@ class ProjectsOverviewView(web.View):
         session_data = tokens_db.decode_token(session['auth'])
         logger.debug("Decoded auth section data: {}".format(session_data))
 
-        rsp = requests.get("{}/users?api_key={}&id={}".format(config.AUTH_SERVICE_ADDRESS, config.AUTH_MASTER_API_KEY, session_data['id']))
+        rsp = requests.get("{}/users?api_key={}&id={}".format(config.AUTH_SERVICE_INTERNAL, config.AUTH_MASTER_API_KEY, session_data['id']))
         if rsp.status_code != 200:
             logger.error("Auth response is {} expected 200. Error: {}".format(rsp.status_code, rsp.text))
             return web.HTTPFound('/login')
@@ -47,7 +47,7 @@ class ProjectsOverviewView(web.View):
 
         logger.debug("Found projects: {}".format(projects_data))
         return {
-            'auth_service_address': config.AUTH_SERVICE_ADDRESS,
+            'auth_service_address': config.AUTH_SERVICE_EXTERNAL,
             'projects': projects_data,
             'active_tab': 'projects',
         }

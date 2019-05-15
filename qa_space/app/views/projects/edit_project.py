@@ -44,7 +44,7 @@ class EditProjectView(web.View):
         logger.debug("Found project: {}".format(project_data))
 
         return {
-            'auth_service_address': config.AUTH_SERVICE_ADDRESS,
+            'auth_service_address': config.AUTH_SERVICE_EXTERNAL,
             'project': project_data,
             'active_tab': 'projects',
         }

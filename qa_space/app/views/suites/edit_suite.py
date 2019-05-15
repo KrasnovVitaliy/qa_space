@@ -44,7 +44,7 @@ class EditSuiteView(web.View):
         logger.debug("Found suite: {}".format(suite_data))
 
         return {
-            'auth_service_address': config.AUTH_SERVICE_ADDRESS,
+            'auth_service_address': config.AUTH_SERVICE_EXTERNAL,
             'suite': suite_data,
             'active_tab': 'suites',
         }

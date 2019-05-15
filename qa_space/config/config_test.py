@@ -6,20 +6,20 @@ import os
 
 class Config(ConfigBase):
     VERSION = "1.0.0"
-    IS_DEBUG = False
+    IS_DEBUG = True
 
     PORT = 8080
     HOST = "0.0.0.0"
 
-    # DB_URI = 'sqlite:////db/qa_space.db'
-    DB_URI = 'postgresql://postgres:127.0.0.1@db:5432/qa_space_auth'
+    DB_URI = 'sqlite:////db/qa_space.db'
 
     # Logging
     LOG_FORMAT = '%(asctime)-15s | %(levelname)s | %(filename)s | %(lineno)d: %(message)s'
     LOG_LEVEL = logging.DEBUG
     LOG_FILE = None
 
-    AUTH_SERVICE_ADDRESS = "http://127.0.0.1:7000"
+    AUTH_SERVICE_INTERNAL = "http://qa_space_auth:7000"
+    AUTH_SERVICE_EXTERNAL = "http://127.0.0.1:7000"
 
     TOKENS_SECRET = "nzIxhdYtE4UUDITCHst9bhvSJsuhPMbYNostg28oM"
     COOKIE_SECRET = "kioQTiAtFMoncsZOYRnj5IvagCndNV2e9LFy1RNEMOU="

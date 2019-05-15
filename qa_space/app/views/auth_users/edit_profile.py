@@ -22,7 +22,7 @@ class EditProfileView(web.View):
         session_data = tokens_db.decode_token(session['auth'])
         logger.debug("Decoded auth section data: {}".format(session_data))
 
-        rsp = requests.get("{}/users?api_key={}&id={}".format(config.AUTH_SERVICE_ADDRESS, config.AUTH_MASTER_API_KEY,
+        rsp = requests.get("{}/users?api_key={}&id={}".format(config.AUTH_SERVICE_INTERNAL, config.AUTH_MASTER_API_KEY,
                                                               session_data['id']))
         if rsp.status_code != 200:
             logger.error("Auth response is {} expected 200. Error: {}".format(rsp.status_code, rsp.text))
@@ -33,7 +33,7 @@ class EditProfileView(web.View):
             return web.HTTPNotFound()
 
         return {
-            'auth_service_address': config.AUTH_SERVICE_ADDRESS,
+            'auth_service_address': config.AUTH_SERVICE_EXTERNAL,
             'profile': user_data,
             'active_tab': 'profile',
         }
@@ -61,7 +61,7 @@ class EditProfileView(web.View):
                 if post_data[key]:
                     user_data[key] = post_data[key]
 
-        ret = requests.put("{}/users?id={}".format(config.AUTH_SERVICE_ADDRESS, session_data['id']),
+        ret = requests.put("{}/users?id={}".format(config.AUTH_SERVICE_INTERNAL, session_data['id']),
                            data=json.dumps(user_data))
 
         if ret.status_code != 200:

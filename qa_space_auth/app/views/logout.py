@@ -9,4 +9,4 @@ class LogoutView(web.View, CorsViewMixin):
     async def get(self):
         session = await get_session(self.request)
         del session['auth']
-        return web.HTTPFound("{}/login".format(config.QA_SPACE_ADDRESS_INDEX))
+        return web.HTTPFound("{}/login".format(config.QA_SPACE_EXTERNAL))

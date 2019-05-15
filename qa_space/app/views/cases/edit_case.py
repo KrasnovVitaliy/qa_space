@@ -69,7 +69,7 @@ class EditCaseView(web.View):
         case_data['tags'] = ",".join(tags)
 
         return {
-            'auth_service_address': config.AUTH_SERVICE_ADDRESS,
+            'auth_service_address': config.AUTH_SERVICE_EXTERNAL,
             'case': case_data,
             'active_tab': 'projects',
         }

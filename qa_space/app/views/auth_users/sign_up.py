@@ -12,5 +12,5 @@ class SignUpView(web.View):
     @aiohttp_jinja2.template('auth_users/sign_up.html')
     async def get(self):
         return {
-            'auth_service_address': config.AUTH_SERVICE_ADDRESS,
+            'auth_service_address': config.AUTH_SERVICE_EXTERNAL,
         }

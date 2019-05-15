@@ -67,9 +67,9 @@ routes = [
 
     # Promo
     web.view('/', IndexView),
+    web.static('/static', path_to_static_folder, show_index=True),
 ]
 
 if config.IS_DEBUG:
     # routes.append(web.view('/doc', DocsView)),
     routes.append(web.view('/config', ConfigsView)),
-    web.static('/static', path_to_static_folder, show_index=True),

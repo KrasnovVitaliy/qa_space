@@ -17,6 +17,6 @@ class RunsOverviewView(web.View):
     @aiohttp_jinja2.template('not_implemented.html')
     async def get(self):
         return {
-            'auth_service_address': config.AUTH_SERVICE_ADDRESS,
+            'auth_service_address': config.AUTH_SERVICE_EXTERNAL,
             'active_tab': 'runs',
         }

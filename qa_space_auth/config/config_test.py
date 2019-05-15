@@ -22,7 +22,8 @@ class Config(ConfigBase):
     COOKIE_SECRET = "kioQTiAtFMoncsZOYRnj5IvagCndNV2e9LFy1RNEMOU="
     MASTER_API_KEY = "a4e2cbe005ad54e2d8d101fcd2618f87"
 
-    QA_SPACE_ADDRESS_INDEX = 'http://127.0.0.1:8080'
+    QA_SPACE_INTERNAL = 'http://qa_space:8080'
+    QA_SPACE_EXTERNAL = 'http://127.0.0.1:8080'
 
     os.chdir(os.path.dirname(__file__))
     PROJECT_DIR = os.getcwd()

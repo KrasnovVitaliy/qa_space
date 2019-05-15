@@ -49,4 +49,4 @@ class FormUsersView(web.View, CorsViewMixin):
         users.role = user_role.id
         db.session.add(users)
         db.session.commit()
-        return web.HTTPFound("{}/login".format(config.QA_SPACE_ADDRESS_INDEX))
+        return web.HTTPFound("{}/login".format(config.QA_SPACE_EXTERNAL))
